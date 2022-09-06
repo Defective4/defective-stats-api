@@ -107,6 +107,10 @@ public class StatsCollector {
         return val;
     }
 
+    public void incrementNumber(String name) {
+        putNumber(name, getNumber(name) + 1);
+    }
+
     public void update(boolean continuous) throws IOException {
         if (paused) return;
         for (StatsUpdateCallback callback : callbacks) {
