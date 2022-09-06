@@ -148,4 +148,12 @@ public class StatsCollector {
     public boolean isPaused() {
         return paused;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
 }
