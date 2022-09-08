@@ -27,7 +27,7 @@ public class StatsCollector {
     private final Map<String, Long> numberValues = new HashMap<String, Long>();
 
     private final long startDate = System.currentTimeMillis();
-    private final List<StatsUpdateCallback> callbacks = new ArrayList<>();
+    private final List<StatsUpdateCallback> callbacks = new ArrayList<StatsUpdateCallback>();
 
     public void addCallback(StatsUpdateCallback callback) {
         callbacks.add(callback);
@@ -56,11 +56,14 @@ public class StatsCollector {
         this.url = url;
         this.userID = userID;
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                update(false);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    update(false);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }));
 
@@ -92,8 +95,13 @@ public class StatsCollector {
     }
 
     public String getStat(String name) {
-        String stat = values.getOrDefault(name, "");
-        values.put(name, stat);
+        String stat;
+        if (values.containsKey(name)) {
+            stat = values.get(name);
+        } else {
+            stat = "";
+            values.put(name, stat);
+        }
         return stat;
     }
 
@@ -102,8 +110,13 @@ public class StatsCollector {
     }
 
     public long getNumber(String name) {
-        long val = numberValues.getOrDefault(name, (long) 0);
-        numberValues.put(name, val);
+        long val;
+        if (numberValues.containsKey(name)) {
+            val = numberValues.get(name);
+        } else {
+            val = 0;
+            numberValues.put(name, val);
+        }
         return val;
     }
 

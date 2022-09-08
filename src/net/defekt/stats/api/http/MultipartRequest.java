@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 public class MultipartRequest {
 
     private final URL url;
-    private final Map<String, RequestPart> parts = new HashMap<>();
+    private final Map<String, RequestPart> parts = new HashMap<String, RequestPart>();
 
     public MultipartRequest(URL url) {
         this.url = url;
